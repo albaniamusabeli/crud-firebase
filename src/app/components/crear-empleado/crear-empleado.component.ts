@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Empleado } from 'src/app/interfaces/empleado';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 
@@ -12,9 +13,13 @@ import { EmpleadoService } from 'src/app/services/empleado.service';
 export class CrearEmpleadoComponent implements OnInit {
 
   botonAgregar: boolean = false;
+  loading: string = 'desactivado';
   
 
-  constructor(private fb: FormBuilder, private empleadoService: EmpleadoService, private router: Router) { }
+  constructor(private fb: FormBuilder,
+              private empleadoService: EmpleadoService,
+              private router: Router,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -48,13 +53,18 @@ export class CrearEmpleadoComponent implements OnInit {
       fechaActualizacion: new Date()
     }
 
-    
+    this.loading= 'activado';
+
     this.empleadoService.agregarEmpleadoFirebase(empleado).then(()=>{
-      console.log('Empleado Agregado');
-      this.router.navigate(['/lista-empleados'])
+      this.toastr.success('Empleado Agregado Correctamente', 'Empleado Registrado!',{positionClass: 'toast-bottom-right'});
+      
+      this.loading= 'desactivado';
+      
+      this.router.navigate(['/lista-empleados']);
       
     }).catch( error =>{
       console.log('Error: ',error);
+      
       
     } )
     

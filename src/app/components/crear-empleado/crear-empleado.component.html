@@ -3,7 +3,11 @@
         <div class="col-lg-6 offset-lg-3 text-center">
             <div class="card text-center">
                 <div class="card-body">
-                    <h3>Agregar Empleado</h3>
+                    <h3>Agregar Empleado
+                        <div *ngIf="loading == 'activado'" class="spinner-border float-end" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </h3>
 
                     <div *ngIf="formularioEmpleado.invalid && botonAgregar == true">
                         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
