@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
+import { Empleado } from 'src/app/interfaces/empleado';
+import { EmpleadoService } from 'src/app/services/empleado.service';
 
 @Component({
   selector: 'app-lista-empleados',
@@ -9,11 +11,36 @@ import { Observable } from 'rxjs';
 })
 export class ListaEmpleadosComponent implements OnInit {
 
-  constructor() {
+  //Lista de empleados que guarda los empleados que se trae de firebase
+  empleados: Empleado[] = [];
+
+  constructor(private empleadoService: EmpleadoService) {
    
   }
 
   ngOnInit(): void {
+    this.getEmpleados()
+  }
+
+
+  getEmpleados(){
+    this.empleadoService.obtenerEmpleadosFirebase().subscribe(data =>{
+      
+      this.empleados = [];
+
+      data.forEach((i:any) => {
+        //console.log(i.payload.doc.id);
+        //console.log(i.payload.doc.data());
+        this.empleados.push({
+          id: i.payload.doc.id,
+          ...i.payload.doc.data()
+        })
+        
+      });
+      console.log(this.empleados);
+      
+      
+    })
   }
 
 }
