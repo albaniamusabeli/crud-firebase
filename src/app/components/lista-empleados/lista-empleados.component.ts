@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Empleado } from 'src/app/interfaces/empleado';
 import { EmpleadoService } from 'src/app/services/empleado.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lista-empleados',
@@ -46,11 +47,25 @@ export class ListaEmpleadosComponent implements OnInit {
 
 
   eliminarEmpleado(id: any){
-    this.empleadoService.eliminarEmpleadoFirebase(id).then(()=>{
-      this.toastr.error('Empleado Eliminado de la base de datos', 'Empleado Eliminado',{positionClass: 'toast-bottom-right'});
+    // Sweet Alert para confirmar la eliminacion de un empleado
+    Swal.fire({
+      title: '¿Quieres eliminar este empleado?',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar'
+      
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.empleadoService.eliminarEmpleadoFirebase(id).then(()=>{
+          this.toastr.error('Empleado Eliminado de la base de datos', 'Empleado Eliminado',{positionClass: 'toast-bottom-right'});
+        })
+        .catch(error =>{
+          console.log(error);
+        })
+      } 
     })
-    .catch(error =>{
-      console.log(error);
-    })
+
+
+    
   }
 }
