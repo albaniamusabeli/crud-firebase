@@ -21,8 +21,8 @@
                     <td>{{i.rut}}</td>
                     <td>{{i.sueldo}}</td>
                     <td>
-                        <i class="fas fa-user-edit fa-lg text-info me-4"></i>
-                        <i class="fas fa-user-times fa-lg text-danger"></i>
+                        <i [routerLink]="['/editar-empleado/',i.id]" class="fas fa-user-edit fa-lg text-info me-4"></i>
+                        <i (click)="eliminarEmpleado(i.id)" class="fas fa-user-times fa-lg text-danger"></i>
                     </td>
                   </tr>
                   

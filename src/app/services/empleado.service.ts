@@ -19,5 +19,19 @@ export class EmpleadoService {
     return this.firestore.collection('empleados',ref => ref.orderBy('fechaCreacion', 'asc')).snapshotChanges();
   }
 
+  //obtener empleado de firebase segun su id
+  obtenerEmpleadoFirebase(idRuta: string): Observable<any> {
+    return this.firestore.collection('empleados').doc(idRuta).snapshotChanges();
+  }
 
+  //metodo para editar empleado (recibe el id y los datos de empleado)
+  editarEmpleadoFirebase(id: string, empleado: Empleado): Promise<any> {
+    return this.firestore.collection('empleados').doc(id).update(empleado);
+  }
+
+
+  //metodo para eliminar empleado de Firebase
+  eliminarEmpleadoFirebase(id: string): Promise<any> {
+    return this.firestore.collection('empleados').doc(id).delete();
+  }
 }
